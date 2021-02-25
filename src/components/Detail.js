@@ -11,7 +11,7 @@ export default class Home extends React.Component {
   constructor(props){
     super(props);
     this.state = {breed: null};
-    
+    this.addFav = this.addFav.bind(this);
   }
   
    componentDidMount(){
@@ -60,13 +60,25 @@ export default class Home extends React.Component {
 	  xmlhttp.setRequestHeader("x-api-key", "DEMO-API-KEY")
 	  xmlhttp.send();
 }
+
+  addFav(name){
+  console.log();
+  	let current = localStorage.getItem("favs");
+  	if(!current){
+  		localStorage.setItem("favs", [this.state.breed.name]);
+  	}
+	console.log(current);
+  }
   
   
   render(){
+  	let component = this;
     return <div>{this.state.breed && 
     <p>Nom: {this.state.breed.name}<br />
     Origine: {this.state.breed.origin}<br />
     Wiki: <a href={this.state.breed.wikipedia_url}>{this.state.breed.name}</a><br />
-    Image: <img width="200" src={this.state.img} /></p>}</div>
+    Image: <img width="200" src={this.state.img} /></p>}
+    <button onClick={this.addFav}>  Ajouter aux favoris
+    </button></div>
   }
 }
