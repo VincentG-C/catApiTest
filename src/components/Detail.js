@@ -27,7 +27,8 @@ export default class Home extends React.Component {
       try {
         var data = JSON.parse(xmlhttp.responseText);
         
-        component.setState({breed : data[0]});
+        component.setState({breed : data[0], img: ""});
+        component.imageLink();
         console.log(data[0]);
       } catch (err) {
         return;
@@ -39,11 +40,33 @@ export default class Home extends React.Component {
   xmlhttp.setRequestHeader("x-api-key", "DEMO-API-KEY")
   xmlhttp.send();
 }
+
+  imageLink(){
+    var xmlhttp = new XMLHttpRequest();
+   var component = this;
+   xmlhttp.onreadystatechange = function() {
+   if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+     try {
+        var data = JSON.parse(xmlhttp.responseText);
+        component.setState({img : data.url});
+        console.log(data);
+      } catch (err) {
+        return;
+      }
+   }
+  };
+
+	  xmlhttp.open("GET", "https://api.thecatapi.com/v1/images/"+this.state.breed.reference_image_id, true);
+	  xmlhttp.setRequestHeader("x-api-key", "DEMO-API-KEY")
+	  xmlhttp.send();
+}
+  
   
   render(){
     return <div>{this.state.breed && 
     <p>Nom: {this.state.breed.name}<br />
     Origine: {this.state.breed.origin}<br />
-    Wiki: <a href={this.state.breed.wikipedia_url}>{this.state.breed.name}</a></p>}</div>
+    Wiki: <a href={this.state.breed.wikipedia_url}>{this.state.breed.name}</a><br />
+    Image: <img width="200" src={this.state.img} /></p>}</div>
   }
 }
