@@ -14,7 +14,7 @@ export default class Home extends React.Component {
     this.fillBreeds();
   }
   
-  fillBreeds(url, callback) {
+  fillBreeds() {
   var xmlhttp = new XMLHttpRequest();
   var component = this;
   xmlhttp.onreadystatechange = function() {
@@ -45,7 +45,7 @@ handleChange(event) {
   if(this.state.breeds){
   listItems = this.state.breeds.map((breed) => 
    <div>
-   {breed.name.toLowerCase().indexOf(this.state.search.toLowerCase()) != -1 && <Link to={"detail/"+breed.id}>{breed.name}</Link>}
+   {breed.name.toLowerCase().indexOf(this.state.search.toLowerCase()) != -1 && <Link to={"detail/"+breed.name}>{breed.name}</Link>}
   </div>);
   }
     return <h1>
